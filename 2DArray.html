@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>2D Array</title>
+    <style type="text/css">
+        td{text-align:center}
+    </style>
+    <script type="text/javascript">
+        var iRows, iCols;
+        var aiRanNums = new Array;
+        function vCreate()
+        {
+            document.getElementById('taOut').value = ' '
+            iRows = document.getElementById('txtRows').value;
+            iCols = document.getElementById('txtCols').value;
+
+            if (!isNaN(iRows) && !isNaN(iCols) && parseFloat(iRows) % 1 == 0 && parseFloat(iCols) % 1 == 0 && parseInt(iRows) > 0 && parseInt(iCols) > 0)
+            {
+                iRows = parseInt(iRows);
+                iCols = parseInt(iCols);
+
+                //create the Array
+                 aiRanNums = new Array(iRows)
+                var i;
+                for (i = 0; i < iRows; i++)
+                {
+                    aiRanNums[i] = new Array(iCols)
+                }
+                // fill the array with random numberts between 1 and 100
+                var j;
+                for (i = 0; i < iRows; i++)
+                {
+                    for (j = 0; j < iCols; j++)
+                    { 
+                        aiRanNums[i][j] = Math.floor(Math.random() * 100) + 1;
+                        document.getElementById('taOut').value += aiRanNums[i][j] + '\t';
+                    }
+                    document.getElementById('taOut').value += '\r';
+                }
+               
+            }
+
+            
+
+
+        }
+
+        function vPrintCol()
+        {
+
+            document.getElementById('taOut').value = '';
+            var iColPrint = document.getElementById('txtColNum').value
+
+
+            if (!isNaN(iColPrint) && parseFloat(iColPrint) % 1 == 0 && parseInt(iColPrint) >= 0 && parseInt(iColPrint) < iCols)
+            {
+                iColPrint = parseInt(iColPrint);
+                for (i = 0; i < iRows; i++)
+                {
+                    document.getElementById('taOut').value += aiRanNums[i][iColPrint] + '\r'
+                }
+               
+            }
+
+        
+
+        }
+        function vPrintRow()
+        {
+            document.getElementById('taOut').value = '';
+
+            var iRowPrint = document.getElementById('txtRowNum').value
+
+            if (!isNaN(iRowPrint) && parseFloat(iRowPrint) % 1 == 0 && parseInt(iRowPrint) >= 0 && parseInt(iRowPrint) < iRows)
+            {
+                iRowPrint = parseInt(iRowPrint);
+                for (i = 0; i < iCols; i++)
+                {
+                    document.getElementById('taOut').value += aiRanNums[iRowPrint][i] + '\r'
+                }
+
+            }
+        }
+
+
+        function iSum()
+        {
+            var iSumValue=0;
+            var i,j;
+            for (i = 0; i < iRows; i++)
+            {
+                for (j = 0; j < iCols; j++)
+
+                {
+                    iSumValue += aiRanNums[i][j]
+
+                }
+            }
+
+            return iSumValue
+        }
+
+        function vCompute()
+        {
+            document.getElementById('taOut').value += '\rThe Sum of these values is ' + iSum() + ' . ' +
+                '\rThe Minimum value in the array is ' + iMinimum() + ' .';
+
+        }
+
+
+        function iMinimum() 
+        {
+
+
+            var iMin = aiRanNums[0][0]
+            var i, j;
+            for (i = 0; i < iRows; i++) {
+                for (j = 0; j < iCols; j++)
+                {
+                    if (aiRanNums[i][j] < iMin)
+                    {
+                        iMin = aiRanNums[i][j];
+                    }
+
+                }
+            }
+            return iMin
+        }
+
+        function vColTotals()
+        {
+            aiColTot = new Array(iCols)
+            var i;
+            var j;
+            var k;
+            for (i = 0; i < iCols; i++)
+            {
+                aiColTot[i] = 0 
+            }
+
+
+            for (i = 0; i < iCols; i++) {
+                for (j = 0; j < iRows; j++) {
+
+                    aiColTot[i] += aiRanNums[j][i]
+
+                }
+            }
+
+            document.getElementById('taOut').value += '\r'
+
+            for (k = 0; k < iCols; k++)
+            {
+                
+                document.getElementById('taOut').value +=  aiColTot[k] + '\t';  
+            }
+            
+        }
+
+        function vRowTotals()
+        {
+
+            aiRowTot = new Array(iRows)
+
+            var i, j, k;
+
+            for (i = 0; i < iRows; i++) {
+                aiRowTot[i] = 0
+
+            }
+
+            for (i = 0; i < iRows; i++) {
+                for (j = 0; j < iCols; j++) {
+                    aiRowTot[i] += aiRanNums[i][j]
+                }
+            }
+
+            
+            
+            for (k = 0; k < iRows; k++)
+            {
+
+                document.getElementById('taOut').value += aiRowTot[k] + '\t';
+            }
+
+            document.getElementById('taOut').value += '\r'
+        }
+
+
+    </script>
+</head>
+<body>
+    <form id="frm2D">
+        <table style="border:2px solid black; background-color:aquamarine; margin-left:auto; margin-right:auto">
+            <tr>
+                <td colspan="2" style="font-size:x-large"> 2-D Array of Random numbers</td>
+            </tr>
+            <tr>
+                <td style="text-align:right"> Number of rows: </td>
+                <td style="text-align:left"> <input type="text" id="txtRows" /> </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"> Number of columns: </td>
+                <td style="text-align:left"> <input type="text" id="txtCols" /> </td>
+            </tr>
+            <tr>
+                <td colspan="2"> <input type="button" id="btnCreate" style="width:150px" value="Create" onclick="vCreate()" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"> <input type="button" id="btnCompute" style="width:150px" value="Computations" onclick="vCompute()" /></td>
+            </tr>
+            <tr>
+                <td> Print column number: <input type="text" id="txtColNum" size="5" /> </td>
+                <td> <input type="button" id="btnCol" style="width:150px" value="Print Column" onclick="vPrintCol()" /> </td>
+            </tr>
+            <tr>
+                <td style="text-align:right"> Print row number: <input type="text" id="txtRowNum" size="5" /> </td>
+                <td> <input type="button" id="btnRow" style="width:150px" value="Print Row" onclick="vPrintRow()" /> </td>
+            </tr>
+            <tr>
+                <td> <input type="button" id="btnColTot" style="width:150px" value="Column Totals" onclick="vColTotals()" /></td>
+                <td> <input type="button" id="btnRowTot" style="width:150px" value="Row Totals" onclick="vRowTotals()" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"> <textarea id="taOut" rows="10" cols="50"></textarea></td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
